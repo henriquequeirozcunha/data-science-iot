@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>PIR Sensor Over Websockets</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function subscribeToSensor(sensor) {
+        var socket = new WebSocket('ws://devices.webofthings.io/pi/sensors/' + sensor,'wot'); //#A
+
+        socket.onmessage = function (event) { //#B
+            var result = JSON.parse(event.data);
+            console.log(result.value)
+        };
+        socket.onerror = function (error) { //#C
+            console.log('An error occured while trying to connected to a Websocket!');
+            console.log(error);
+        };
+    };
+    subscribeToSensor('pir');
+</script>
+</body >
+</html>
