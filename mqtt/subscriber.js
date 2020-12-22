@@ -1,12 +1,15 @@
-const mqtt = require('mqtt')
+const mqtt = require('mqtt');
+const client = mqtt.connect('mqtt://localhost');
 
-const client = mqtt.connect('mqtt://broker.hivemq.com')
+var todosTopicos = ['casa/quarto/lampada', 'casa/quarto/tv', 'casa/sala/lampada'];
+client.subscribe(todosTopicos);
 
-// COMPLETE COM O CÓDIGO NECESSÁRIO PARA RECEBER
-//NOTIFICAÇAO DO DADO ATRAVÉS DO TOPICO sensores/voltagem
+
 client.on('connect', () => {
-console.log('connected')
-})
+    console.log('connected');
+});
+
 client.on('message', (topic, message) => {
-console.log('received message %s %s', topic, message)
-})
+    console.log('received message %s %s', topic, message.toString());
+    client.end();
+});

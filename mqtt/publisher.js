@@ -1,43 +1,22 @@
-const aedes = require('aedes')();
-const server = require('net').createServer(aedes.handle);
-const port = 1883;
+const mqtt = require('mqtt');
+const client = mqtt.connect('mqtt://localhost');
 
-// exports.startBroker = function() {
-const startBroker = function() {
-    return new Promise((res, rej) => {
-        server.listen(port, function () {
-            console.log(`MQTT Broker started on port ${port}`);
-            return res()
-        });
-    })
+var interval = setInterval( function() {
+    sendData();
+}, 2000);
+
+client.on('message', () => {
+    console.log('message');
+});
+
+function sendData(){
+    console.log('publishing');
+    client.publish('casa/quarto/lampada', 'lampada do quarto: ' + randomInt(110, 220).toString());
+    client.publish('casa/quarto/tv', 'tv do quarto: ' + randomInt(110, 220).toString());
+    client.publish('casa/sala/lampada', 'lampada da sala: ' + randomInt(110, 220).toString());
+    console.log('published');
 };
 
-const mqtt = require('mqtt')
-const client = mqtt.connect('mqtt://broker.hivemq.com')
-var interval = setInterval( function() {
-sendData()
-},2000)
-client.on('message', () => {
-console.log('message')
-})
-function sendData()
-{
-console.log('publishing')
-// COMPLETE COM O CÓDIGO NECESSÁRIO PARA PUBLICAR O DADO
-//ALEATORIO UTILIZANDO O TOPICO sensores/voltagem
-console.log('published')
-}
 function randomInt (low, high) {
-return Math.floor(Math.random() * (high - low) + low);
-}
-
-
-(async function () {
-    try {
-      await startBroker();
-      await mqttClient();
-    } catch (e) {
-      console.error("ERROR: ", e);
-      process.exit();
-    }
-  })();
+    return Math.floor(Math.random() * (high - low) + low);
+};

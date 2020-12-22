@@ -1,0 +1,1 @@
+[{"id":"a896d833.23bcb8","type":"function","z":"dfffde6d.f525d","name":"Change msgPayload to mensagem_mqtt","func":"msg.mensagem_mqtt = msg.payload\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","x":390,"y":580,"wires":[["244f5bfa.1727b4","992ccc6e.ef48f"]]}]
